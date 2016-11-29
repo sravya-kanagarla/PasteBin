@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pastebin</title>
+        {% load staticfiles %}
+
+    <link rel="icon" href="{% static "images/favicon.ico" %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .storage{
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+        }
+        .x{
+    position: relative;
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: -webkit-match-parent;
+        }
+        .help{
+
+            padding: 10px;
+            margin-top: 100px;
+        width : 400px;
+				-webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
+	-moz-box-shadow: 0px 1px 6px rgba(23, 69, 88, .5);
+	transition : all 0.4s ease;
+            z-index: 10000;
+            color : white;
+            font-size: large;
+        }
+        .cover{
+            position: absolute;
+            width : 100%;
+            margin-top: -20px;
+            height: 93%;
+			background-image : url('{% static "images/giphy.gif" %}');
+			background-size   : cover;
+			background-repeat : no-repeat;
+			background-attachment: fixed;
+            z-index: -1;
+        }
+    </style>
+    <script>
+        $('#nav').affix({
+      offset: {
+        top: $('header').height()
+      }
+});
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse fix">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">PasteBin</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+      <li><a href="/files/"><span class="glyphicon glyphicon-paperclip"></span> View my clip board</a></li>
+    </ul>
+      {% if logged_in == False %}
+      <p class="navbar-text navbar-right"><a style="color: white;text-decoration: none" href="/accounts/login"><span class="glyphicon glyphicon-chevron-right"></span> Login</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+      {% else %}
+      <p class="navbar-text navbar-right"><a style="color: white;text-decoration: none" href="/accounts/logout"><span class="glyphicon glyphicon-off"></span> Logout</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+      {% endif %}
+  </div>
+</nav>
+{% if logged_in == True %}
+    <form method="post">
+        {% csrf_token %}
+        <center><textarea placeholder="Your content here" name="data" rows="17" cols="100" class="storage" required></textarea><br><br>
+            <input name="title" placeholder="title" class="form-control" style="width:300px;display: inline-block;" type="text" required><br><br>
+        <input class="btn btn-primary" type="submit" value="Create permanent link"></center>
+    </form>
+    {% else %}
+    <div class="cover">
+&nbsp;
+    </div><center>
+    <div class="help">
+        You can share any type of text to ur frnds online. Like codes, messages, etc..<br>
+        Please <a href="/register">register</a> to share ur content. Or login above
+    </div></center>
+{% endif %}
+</body>
+</html>
